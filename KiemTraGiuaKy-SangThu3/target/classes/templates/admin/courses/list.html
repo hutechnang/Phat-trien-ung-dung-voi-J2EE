@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin - Courses')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar('')}"></div>
+
+<main class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h1 class="h3 mb-0">Admin - Courses</h1>
+        <a class="btn btn-primary" th:href="@{/admin/courses/create}">Create</a>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <div class="table-responsive shadow-sm border rounded">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Credits</th>
+                <th>Instructor</th>
+                <th style="width: 220px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${coursePage.content}">
+                <td class="fw-semibold" th:text="${c.name}">name</td>
+                <td th:text="${c.credits}">3</td>
+                <td th:text="${c.instructor}">inst</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" th:href="@{/admin/courses/{id}/edit(id=${c.id})}">Edit</a>
+                    <form class="d-inline" method="post" th:action="@{/admin/courses/{id}/delete(id=${c.id})}"
+                          onsubmit="return confirm('Xóa học phần này?');">
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="mt-3" th:if="${coursePage.totalPages > 1}">
+        <ul class="pagination justify-content-center flex-wrap">
+            <li class="page-item" th:classappend="${coursePage.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin/courses(page=${coursePage.number-1})}">Prev</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, coursePage.totalPages-1)}"
+                th:classappend="${i == coursePage.number} ? 'active'">
+                <a class="page-link" th:href="@{/admin/courses(page=${i})}" th:text="${i+1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${coursePage.last} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin/courses(page=${coursePage.number+1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</main>
+</body>
+</html>
+

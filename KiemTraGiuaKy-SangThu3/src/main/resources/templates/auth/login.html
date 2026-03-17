@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Login')}"></head>
+<body class="bg-body-tertiary">
+<div th:replace="~{fragments/navbar :: navbar('')}"></div>
+
+<main class="container py-5" style="max-width: 520px;">
+    <h1 class="h3 mb-3">Đăng nhập</h1>
+
+    <div th:if="${param.error}" class="alert alert-danger">Sai username hoặc password.</div>
+    <div th:if="${param.logout}" class="alert alert-success">Bạn đã đăng xuất.</div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <form method="post" th:action="@{/login}" class="card shadow-sm p-3">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" required>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Login</button>
+
+        <div class="text-center my-3 text-muted">hoặc</div>
+
+        <a class="btn btn-outline-dark w-100" th:href="@{/oauth2/authorization/google}">
+            Login with Google
+        </a>
+    </form>
+
+    <div class="mt-3 text-center">
+        Chưa có tài khoản? <a th:href="@{/register}">Đăng ký</a>
+    </div>
+
+    <div class="mt-4 small text-muted">
+        Admin mặc định: <b>admin/admin123</b>
+    </div>
+</main>
+</body>
+</html>
+

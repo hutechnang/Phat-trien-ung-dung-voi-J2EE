@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My Courses')}"></head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar('')}"></div>
+
+<main class="container py-4">
+    <h1 class="h3 mb-3">My Courses</h1>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(enrollments)}">
+        Bạn chưa đăng ký học phần nào.
+    </div>
+
+    <div class="list-group shadow-sm" th:if="${!#lists.isEmpty(enrollments)}">
+        <div class="list-group-item" th:each="e : ${enrollments}">
+            <div class="d-flex justify-content-between flex-wrap gap-2">
+                <div>
+                    <div class="fw-semibold" th:text="${e.course.name}">Course</div>
+                    <div class="small text-muted">
+                        <span th:text="'Tín chỉ: ' + ${e.course.credits}">credits</span>
+                        <span class="mx-1">•</span>
+                        <span th:text="'GV: ' + ${e.course.instructor}">instructor</span>
+                    </div>
+                </div>
+                <div class="small text-muted" th:text="${#temporals.format(e.enrolledAt, 'dd/MM/yyyy HH:mm')}">time</div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
+
